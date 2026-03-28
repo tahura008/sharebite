@@ -1,6 +1,6 @@
 const isLocalFile = window.location.protocol === 'file:';
 const HOST = window.location.hostname || 'localhost';
-const BASE_URL = "https://your-backend-name.onrender.com"
+const BASE_URL = "https://sharebite-1.onrender.com"
 const API_URL = BASE_URL + '/api/items';
 
 let slideIndex = 0;
