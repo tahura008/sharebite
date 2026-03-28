@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Donate Food - ShareBite</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  </head>
+  <body class="form-page-bg">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="index.html">
+          <i class="bi bi-box2-heart-fill text-primary me-2"></i>ShareBite
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarMain">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center" >
+            <li class="nav-item me-2">
+              <a href="about.html" class="btn btn-outline-light btn-sm rounded-pill px-3">About</a>
+            </li>
+            <li class="nav-item me-2">
+              <a href="index.html#impact" class="btn btn-outline-light btn-sm rounded-pill px-3">Impact</a>
+            </li>
+            <li class="nav-item me-2">
+              <a href="login.html" class="btn btn-outline-light btn-sm rounded-pill px-3">Login</a>
+            </li>
+            <li>
+              <a href="signup.html" class="btn btn-outline-light btn-sm rounded-pill px-3">Sign Up</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main class="container py-5">
+      <div class="mb-3">
+        <a href="index.html" class="btn btn-light fw-bold btn-sm shadow-sm"><i class="bi bi-arrow-left me-2"></i>Back to Home</a>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <h2 id="donateHeading" class="mb-4 text-center text-white fw-bold">Donate Leftover Food</h2>
+          <div class="card shadow-sm p-4">
+            <form id="donateForm">
+            <div class="mb-3">
+              <label class="form-label">Food Item</label>
+              <input id="title" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Description</label>
+              <textarea id="description" class="form-control" rows="3"></textarea>
+            </div>
+            <div class="mb-3 row">
+              <div class="col-md-6">
+                <label class="form-label">Quantity</label>
+                <input id="quantity" type="number" min="1" class="form-control" value="1">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Expiry Date / Time</label>
+                <input id="expiry" type="datetime-local" class="form-control" required>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Pickup Address</label>
+              <input id="address" class="form-control" required>
+            </div>
+            <div class="mb-3 row">
+              <div class="col-md-6">
+                <label class="form-label">Owner Name</label>
+                <input id="owner" class="form-control" required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Contact</label>
+                <input id="contact" type="number" maxlength="10" minlength="10" class="form-control" required>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Food Image (optional)</label>
+              <input id="image" type="file" accept="image/*" class="form-control">
+              <div id="imagePreview" class="mt-2"></div>
+            </div>
+            <div class="mt-4 text-center">
+              <button class="btn btn-primary btn-lg px-5">Publish Donation</button>
+            </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center py-5 mt-auto">
+        <div class="container">
+            <h4 class="text-dark fw-bold mb-3"><i class="bi bi-box2-heart-fill text-primary me-2"></i>ShareBite</h4>
+            <p class="mb-0 text-muted" >&copy; 2026 ShareBite Platform. Designed for humanity.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>

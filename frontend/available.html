@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Available Food - ShareBite</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+    .food-card img, #foodList img {
+    width: 100%;           /* Fills the width of the card */
+    height: 200px;         /* Forces a specific height */
+    object-fit: cover;     /* Crops the image to fit without stretching it */
+    border-radius: 8px 8px 0 0; /* Rounds the top corners */
+    display: block;
+    }
+    </style>
+
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="index.html">
+          <i class="bi bi-box2-heart-fill text-primary me-2"></i>ShareBite
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarMain">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center" >
+            <li class="nav-item me-2">
+              <a href="about.html" class="btn btn-outline-light btn-sm rounded-pill px-3">About</a>
+            </li>
+            <li class="nav-item me-2">
+              <a href="index.html#impact" class="btn btn-outline-light btn-sm rounded-pill px-3">Impact</a>
+            </li>
+            <li class="nav-item me-2">
+              <a href="login.html" class="btn btn-outline-light btn-sm rounded-pill px-3">Login</a>
+            </li>
+            <li>
+              <a href="signup.html" class="btn btn-outline-light btn-sm rounded-pill px-3">Sign Up</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main class="container py-5">
+      <div class="mb-3">
+        <a href="index.html" class="btn btn-outline-dark btn-sm"><i class="bi bi-arrow-left me-2"></i>Back to Home</a>
+      </div>
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 id="availableHeading">Available Food</h2>
+        <a href="donate.html" class="btn btn-outline-light bg-dark btn-sm" style="font-size: large;">Start Donating</a>
+      </div>
+      <div id="itemsList" class="row gy-4">
+        <!-- items rendered here -->
+      </div>
+    </main>
+
+    <!-- Request modal -->
+    <div class="modal fade" id="requestModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Request Food</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <p id="modalBody"></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center py-5 mt-auto">
+        <div class="container">
+            <h4 class="text-dark fw-bold mb-3"><i class="bi bi-box2-heart-fill text-primary me-2"></i>ShareBite</h4>
+            <p class="mb-0 text-muted" >&copy; 2026 ShareBite Platform. Designed for humanity.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>
