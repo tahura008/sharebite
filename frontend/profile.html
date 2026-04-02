@@ -45,7 +45,10 @@
             <li class="nav-item me-2"><a href="about.html" class="btn btn-outline-light btn-sm rounded-pill px-3">About</a></li>
             <li class="nav-item me-2"><a href="index.html#impact" class="btn btn-outline-light btn-sm rounded-pill px-3">Impact</a></li>
             <li class="nav-item me-2"><a href="donate.html" class="btn btn-outline-light btn-sm rounded-pill px-3">Donate Now</a></li>
-            <li class="nav-item me-2"><a href="#" id="logoutBtn" class="btn btn-outline-light btn-sm rounded-pill px-3">Logout</a></li>
+            <li class="nav-item me-2" id="loginNav"><a href="login.html" class="btn btn-outline-light btn-sm rounded-pill px-3">Login</a></li>
+            <li id="signupNav"><a href="signup.html" class="btn btn-outline-light btn-sm rounded-pill px-3">Sign Up</a></li>
+            <li class="nav-item me-2 d-none" id="profileNav"><a href="profile.html" class="btn btn-outline-light btn-sm rounded-pill px-3">Profile</a></li>
+            <li class="nav-item me-2 d-none" id="logoutNav"><a href="#" id="logoutBtn" class="btn btn-outline-light btn-sm rounded-pill px-3">Logout</a></li>
           </ul>
         </div>
       </div>
@@ -99,6 +102,31 @@
         </div>
       </div>
 
+      <!-- Your Information -->
+      <h4 class="fw-bold mb-4">Your Information</h4>
+      <div class="card shadow-sm border-0 mb-5">
+        <div class="card-body p-4">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Full Name</label>
+              <p class="mb-0" id="fullNameDisplay">User Name</p>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Email</label>
+              <p class="mb-0" id="userEmailDisplay">user@example.com</p>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Role</label>
+              <p class="mb-0" id="userRoleInfoDisplay">Community Member</p>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Member Since</label>
+              <p class="mb-0" id="memberSinceDisplay">January 2026</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Recent Activity -->
       <h4 class="fw-bold mb-4">Your Recent Activity</h4>
       <div class="card shadow-sm border-0">
@@ -127,13 +155,19 @@
           return;
         }
         const user = JSON.parse(userJson);
-        const name = user.name || user.email.split('@')[0];
+        const name = user.name || `${user.firstName} ${user.lastName}` || user.email.split('@')[0];
         
         document.getElementById('userNameDisplay').textContent = name;
         document.getElementById('avatarInitial').textContent = name.charAt(0).toUpperCase();
         
         const roleStr = user.role ? user.role.charAt(0).toUpperCase() + user.role.slice(1) : 'Community Member';
         document.getElementById('userRoleDisplay').innerHTML = `<i class="bi bi-person-badge"></i> ${roleStr}`;
+
+        // Populate Your Information section
+        document.getElementById('fullNameDisplay').textContent = `${user.firstName} ${user.lastName}`;
+        document.getElementById('userEmailDisplay').textContent = user.email;
+        document.getElementById('userRoleInfoDisplay').textContent = roleStr;
+        document.getElementById('memberSinceDisplay').textContent = new Date(user.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
 
         document.getElementById('logoutBtn').addEventListener('click', (e) => {
             e.preventDefault();
@@ -179,12 +213,12 @@
                     let status, badgeClass, iconClass, bgClass, primaryText, secondaryText;
 
                     if (isDonation) {
-                        status = item.requested ? 'Claimed by others' : 'Pending Claim';
-                        badgeClass = item.requested ? 'bg-success' : 'bg-warning text-dark';
-                        iconClass = item.requested ? 'bi-check-circle-fill text-success' : 'bi-clock-fill text-warning';
-                        bgClass = item.requested ? 'bg-success bg-opacity-10' : 'bg-warning bg-opacity-10';
+                        status = (item.status === 'available' || (!item.status && !item.requested)) ? 'Available' : 'Claimed by others';
+                        badgeClass = (item.status === 'available' || (!item.status && !item.requested)) ? 'bg-primary' : 'bg-success';
+                        iconClass = (item.status === 'available' || (!item.status && !item.requested)) ? 'bi-clock-fill text-primary' : 'bi-check-circle-fill text-success';
+                        bgClass = (item.status === 'available' || (!item.status && !item.requested)) ? 'bg-primary bg-opacity-10' : 'bg-success bg-opacity-10';
                         primaryText = `Donated ${item.quantity} portions of ${item.title}`;
-                        secondaryText = `${status} · ${timeStr}`;
+                        secondaryText = `${item.description || 'No description'} · Expires: ${item.expiry || 'N/A'} · ${item.address || 'N/A'} · ${status} · ${timeStr}`;
                     } else {
                         status = 'Collected by you';
                         badgeClass = 'bg-info text-dark';

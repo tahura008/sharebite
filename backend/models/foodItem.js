@@ -13,6 +13,11 @@ const foodItemSchema = new Schema({
   contact: String,
   userEmail: String,
   image: String,
+  status: {
+    type: String,
+    enum: ['available', 'requested', 'collected'],
+    default: 'available',
+  },
   requested: {
     type: Boolean,
     default: false,

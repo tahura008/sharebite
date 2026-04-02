@@ -6,7 +6,7 @@ const { requireAuth } = require('../middleware/auth');
 // GET all available items (public)
 router.get('/', async (req, res) => {
   try {
-    const items = await FoodItem.find({ requested: false }).sort({ createdAt: -1 });
+    const items = await FoodItem.find({ status: 'available' }).sort({ createdAt: -1 });
     res.json(items);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -40,6 +40,7 @@ router.post('/', requireAuth, async (req, res) => {
     const newItem = new FoodItem({
       ...req.body,
       userEmail: req.user.email, // always use authenticated user's email
+      status: 'available',
     });
     await newItem.save();
     res.status(201).json(newItem);
@@ -55,6 +56,7 @@ router.put('/:id', requireAuth, async (req, res) => {
     const update = { ...req.body, updatedAt: Date.now() };
     if (req.body.requested) {
       update.requestedBy = req.user.email;
+      update.status = 'requested';
     }
     const item = await FoodItem.findByIdAndUpdate(req.params.id, update, { new: true });
     if (!item) return res.status(404).json({ error: 'Item not found' });

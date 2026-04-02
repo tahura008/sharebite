@@ -1,6 +1,6 @@
 const isLocalFile = window.location.protocol === 'file:';
 const HOST = window.location.hostname || 'localhost';
-const BASE_URL = "https://sharebite-1.onrender.com"
+const BASE_URL = isLocalFile || HOST === 'localhost' || HOST === '127.0.0.1' ? 'http://localhost:5001' : 'https://sharebite-1.onrender.com';
 const API_URL = BASE_URL + '/api/items';
 
 let slideIndex = 0;
@@ -42,7 +42,7 @@ async function renderItems() {
   const list = document.getElementById('itemsList');
   if (!list) return;
   const allItems = await fetchItems();
-  const items = allItems.filter(i => !i.requested);
+  const items = allItems.filter(i => i.status === 'available' || (!i.status && !i.requested));
   
   list.textContent = '';
   
@@ -177,6 +177,39 @@ function showHome() {
 }
 
 // Initializing the App
+function updateNavbar() {
+  const userJson = localStorage.getItem('currentUser');
+  const isLoggedIn = !!userJson;
+
+  const loginNav = document.getElementById('loginNav');
+  const signupNav = document.getElementById('signupNav');
+  const profileNav = document.getElementById('profileNav');
+  const logoutNav = document.getElementById('logoutNav');
+
+  if (isLoggedIn) {
+    if (loginNav) loginNav.classList.add('d-none');
+    if (signupNav) signupNav.classList.add('d-none');
+    if (profileNav) profileNav.classList.remove('d-none');
+    if (logoutNav) logoutNav.classList.remove('d-none');
+
+    // Add logout functionality
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        localStorage.removeItem('currentUser');
+        localStorage.removeItem('authToken');
+        window.location.href = 'index.html';
+      });
+    }
+  } else {
+    if (loginNav) loginNav.classList.remove('d-none');
+    if (signupNav) signupNav.classList.remove('d-none');
+    if (profileNav) profileNav.classList.add('d-none');
+    if (logoutNav) logoutNav.classList.add('d-none');
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   const donateForm = document.getElementById('donateForm');
   const imageInput = document.getElementById('image');
@@ -199,16 +232,22 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 2. FORM SUBMISSION
   if (donateForm) {
     donateForm.addEventListener('submit', async e => {
       e.preventDefault();
+      
+      const submitBtn = e.target.querySelector('button[type="submit"]');
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Publishing... Please wait.';
+      }
       
       let dataUrl = null;
       if (imageInput && imageInput.files[0]) {
         dataUrl = await new Promise(resolve => {
           const reader = new FileReader();
           reader.onload = () => resolve(reader.result);
+          reader.onerror = () => resolve(null);
           reader.readAsDataURL(imageInput.files[0]);
         });
       }
@@ -252,6 +291,11 @@ document.addEventListener('DOMContentLoaded', () => {
       } catch (err) {
         console.error('Fetch Error:', err);
         alert('Make sure backend is running and image size is reasonable.');
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Publish Donation';
+        }
       }
     });
   }
@@ -269,4 +313,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   renderItems();
+
+  // Update navbar based on login status
+  updateNavbar();
 });
